@@ -2,15 +2,30 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post Details</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Add edit post</title>
+
+    <link rel="shortcut icon" href="images/favicon.png" type="image/png" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+
+    <!-- Font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous" />
+
+    <!-- Use font Rubik -->
+    <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet" />
+
+    <!-- Internal CSS -->
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/post-detail.css" />
 </head>
 
 <body>
-<<<<<<< Updated upstream
-=======
     <header>
         <!-- Navigation
       - Please note that we use an empty item to make sure that we always have 3 flex-items
@@ -26,7 +41,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a id="goToEditPageLink" class="nav-link" href="#"></a>
+                        <a id="goToDetailPageLink" class="nav-link" href="#"></a>
                     </li>
                 </ul>
             </div>
@@ -40,66 +55,54 @@
             <div class="container">
                 <div class="post-detail-main shadow-sm">
                     <div class="post-title-wrapper">
-                        <h1 id="postDetailTitle">&nbsp;</h1>
+                        <h1 id="postDetailTitle">Add edit a post</h1>
 
                         <p>
-                            <small class="text-muted">by</small>
-                            <small id="postDetailAuthor" class="text-muted font-weight-bold">
-                                &nbsp;
+                            <small class="text-muted">Please enter the following information and submit
+                                then.</small>
+                        </p>
+                    </div>
+
+                    <form id="postForm" class="post-form">
+                        <div class="form-group">
+                            <label for="postTitle">Title</label>
+                            <input type="text" class="form-control" name="title" placeholder="Eg: Learning JS is fun" />
+                            <div class="invalid-feedback">
+                                Ooops! Please write a nice title for your post &gt;.&lt;
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="postAuthor">Author</label>
+                            <input type="text" class="form-control" name="author" placeholder="Eg: Paul Nguyen" />
+                            <div class="invalid-feedback">
+                                Please enter author of this post!
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="postDescription">Description</label>
+                            <textarea class="form-control" name="description" rows="3"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="postChangeImage">Image</label>
+                            <small id="passwordHelpBlock" class="form-text text-muted">
+                                We&apos;re using
+                                <a href="https://picsum.photos">Picsum service</a> to get a
+                                random image.
                             </small>
-                            <small id="postDetailTimeSpan" class="text-muted">&nbsp;</small>
-                        </p>
-                    </div>
+                            <button type="button" id="postChangeImage" class="btn btn-dark">
+                                Change post image
+                            </button>
+                        </div>
 
-                    <div class="post-content-wrapper">
-                        <p id="postDetailDescription"></p>
-
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Non
-                            totam pariatur quibusdam tenetur nemo tempora incidunt ex
-                            doloremque exercitationem dicta. Corporis fuga totam nulla
-                            voluptatibus possimus similique aliquid nobis illo.
-                        </p>
-
-                        <p>
-                            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                            Adipisci suscipit inventore hic tenetur, dolor iusto dolorum
-                            rem, non error, saepe quia dignissimos quas ducimus aliquid.
-                            Praesentium ea aspernatur vero deserun.
-                        </p>
-
-                        <img class="post-image" src="https://picsum.photos/1368/800" alt="Picsum photos" />
-
-                        <p>
-                            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                            Adipisci suscipit inventore hic tenetur, dolor iusto dolorum
-                            rem, non error, saepe quia dignissimos quas ducimus aliquid.
-                            Praesentium ea aspernatur vero deserunt.
-                        </p>
-
-                        <p>
-                            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                            Adipisci suscipit inventore hic tenetur, dolor iusto dolorum
-                            rem, non error, saepe quia dignissimos quas ducimus aliquid.
-                            Praesentium ea aspernatur vero deserunt.
-                        </p>
-
-                        <p>
-                            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                            Adipisci suscipit inventore hic tenetur, dolor iusto dolorum
-                            rem, non error, saepe quia dignissimos quas ducimus aliquid.
-                            Praesentium ea aspernatur vero deserunt.
-                        </p>
-
-                        <img class="post-image" src="https://picsum.photos/1368/1000" alt="Picsum photos" />
-
-                        <p>
-                            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                            Adipisci suscipit inventore hic tenetur, dolor iusto dolorum
-                            rem, non error, saepe quia dignissimos quas ducimus aliquid.
-                            Praesentium ea aspernatur vero deserunt.
-                        </p>
-                    </div>
+                        <div class="text-center">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-save mr-1"></i> Save
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </section>
@@ -108,8 +111,9 @@
     <footer class="text-center text-muted py-3">
         <small>Created by Po with <i class="fas fa-heart"></i></small>
     </footer>
->>>>>>> Stashed changes
 
+    <!-- Scripts should be placed here to prevent blocking render UI -->
+    <script type="module" src="js/add-edit-post.mjs"></script>
 </body>
 
 </html>
