@@ -26,4 +26,5 @@ const postApi = {
     return axiosClient.patch(url)
   },
 }
+
 export default postApi
