@@ -1,39 +1,42 @@
-import axiosClient from './api/axiosClient'
+import dayjs from 'dayjs'
 import postApi from './api/postApi'
-import { setTextContent } from './utils'
+import { setTextContent, truncateText } from './utils'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
+dayjs.extend(relativeTime)
 
 function createPostElement(post) {
   if (!post) return
-  try {
-    // find and clone template
-    const postTemplate = document.getElementById('postTemplate')
-    if (!postTemplate) return
+  // find and clone template
+  const postTemplate = document.getElementById('postTemplate')
+  if (!postTemplate) return
 
-    const liElement = postTemplate.content.firstElementChild.cloneNode(true)
-    if (!liElement) return
+  const liElement = postTemplate.content.firstElementChild.cloneNode(true)
+  if (!liElement) return
 
-    // change title, des. thumpnail
-    const titleElemnt = liElement.querySelector(`[data-id="title"]`)
-    if (titleElemnt) titleElemnt.textContent = post.title
+  // change title, des. thumpnail
+  const titleElemnt = liElement.querySelector(`[data-id="title"]`)
+  if (titleElemnt) titleElemnt.textContent = post.title
 
-    setTextContent(liElement, `[data-id="author"]`, post.author)
+  setTextContent(liElement, `[data-id="author"]`, post.author)
 
-    setTextContent(liElement, `[data-id="description"]`, post.description)
+  setTextContent(liElement, `[data-id="description"]`, truncateText(post.description, 90))
 
-    const thumbnailElemnt = liElement.querySelector(`[data-id="thumbnail"]`)
+  setTextContent(liElement, `[data-id="timeSpan"]`, `- ${dayjs(post.updatedAt).fromNow()}`)
 
-    if (post?.imageUrl === 'https://picsum.photos/id/771/1368/400')
-      post.imageUrl = 'https://via.placeholder.com/318x200'
+  const thumbnailElemnt = liElement.querySelector(`[data-id="thumbnail"]`)
 
-    if (thumbnailElemnt) {
-      thumbnailElemnt.src = post?.imageUrl
-      thumbnailElemnt.alt = post.title
-    }
+  // if (post?.imageUrl === 'https://picsum.photos/id/771/1368/400') post.imageUrl = ''
 
-    return liElement
-  } catch (error) {
-    console.log('fail to create post')
+  if (thumbnailElemnt) {
+    thumbnailElemnt.src = post.imageUrl
+    thumbnailElemnt.addEventListener('error', () => {
+      thumbnailElemnt.src = 'https://via.placeholder.com/318x200?text=Image'
+    })
+    thumbnailElemnt.alt = post.title
   }
+
+  return liElement
 }
 
 function renderPostList(postList) {
@@ -52,7 +55,7 @@ function renderPostList(postList) {
   try {
     const params = {
       _page: 1,
-      _limit: 5,
+      _limit: 6,
     }
     const { data, pagination } = await postApi.getAll(params)
     renderPostList(data)
