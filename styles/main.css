@@ -81,3 +81,6 @@ ul {
 .nav .nav__link > i {
   margin-right: 5px;
 }
+.card-body .card-text {
+  word-break: break-all;
+}
