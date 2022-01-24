@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import postApi from './api/postApi'
-import { setTextContent, truncateText } from './utils'
+import { getUlPagination, setTextContent, truncateText } from './utils'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
 dayjs.extend(relativeTime)
@@ -45,19 +45,114 @@ function renderPostList(postList) {
   const ulElement = document.getElementById('postList')
   if (!ulElement) return
 
+  // clear current list
+  ulElement.textContent = ''
+
   postList.forEach((post) => {
     const liElement = createPostElement(post)
     ulElement.appendChild(liElement)
   })
 }
 
+function renderPagination(pagination) {
+  const ulPagination = getUlPagination()
+  if (!pagination || !ulPagination) return
+
+  // calc totalPages
+  const { _page, _limit, _totalRows } = pagination
+  const totalPages = Math.ceil(_totalRows / _limit)
+
+  // save page and totalPages to ulPagination
+  ulPagination.dataset.page = _page
+  ulPagination.dataset.totalPages = totalPages
+
+  // check if enable/disable pre next link
+  if (_page <= 1) ulPagination.firstElementChild.classList.add('disabled')
+  else ulPagination.firstElementChild.classList.remove('disabled')
+
+  if (_page >= totalPages) ulPagination.lastElementChild.classList.add('disabled')
+  else ulPagination.lastElementChild.classList.remove('disabled')
+}
+
+async function handleFilterChange(filterName, filterValue) {
+  try {
+    //update query params
+    const url = new URL(window.location)
+    url.searchParams.set(filterName, filterValue)
+    history.pushState({}, '', url)
+
+    //fetch Api
+
+    //re-render Post List
+    const { data, pagination } = await postApi.getAll(url.searchParams)
+
+    renderPagination(pagination)
+    renderPostList(data)
+  } catch (error) {
+    console.log('failed to fetch post list', error)
+  }
+}
+
+function handlePreClick(e) {
+  e.preventDefault()
+  const ulPagination = getUlPagination()
+  if (!ulPagination) return
+
+  const page = Number.parseInt(ulPagination.dataset.page) || 1
+  if (page <= 1) return
+
+  handleFilterChange('_page', page - '1')
+}
+
+function handleNextClick(e) {
+  e.preventDefault()
+  const ulPagination = getUlPagination()
+  if (!ulPagination) return
+
+  const page = Number.parseInt(ulPagination.dataset.page) || 1
+  const totalPages = ulPagination.dataset.totalPages
+  if (page >= totalPages) return
+
+  handleFilterChange('_page', page + 1)
+}
+
+function initPagination() {
+  //bind click event for pre next button
+  const ulPagination = getUlPagination()
+  if (!ulPagination) return
+
+  //Pre link button
+  const preLink = ulPagination.firstElementChild?.firstElementChild
+  if (preLink) {
+    preLink.addEventListener('click', handlePreClick)
+  }
+
+  //Next link button
+  const nextLink = ulPagination.lastElementChild?.firstElementChild
+  if (nextLink) {
+    nextLink.addEventListener('click', handleNextClick)
+  }
+}
+
+function initURl() {
+  const url = new URL(window.location)
+
+  // set default params for url
+  if (!url.searchParams.get('_page')) url.searchParams.set('_page', 1)
+  if (!url.searchParams.get('_limit')) url.searchParams.set('_limit', 6)
+
+  history.pushState({}, '', url)
+}
+
 ;(async () => {
   try {
-    const params = {
-      _page: 1,
-      _limit: 6,
-    }
+    initPagination()
+    initURl()
+
+    const params = new URLSearchParams(window.location.search)
     const { data, pagination } = await postApi.getAll(params)
+
+    renderPagination(pagination)
     renderPostList(data)
   } catch (error) {
     console.log('get all fail', error)
