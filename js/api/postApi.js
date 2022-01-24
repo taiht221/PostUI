@@ -2,7 +2,6 @@ import axiosClient from './axiosClient'
 
 const postApi = {
   getAll(params) {
-    console.log(params)
     const url = '/posts'
     return axiosClient.get(url, { params: params })
   },
