@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>Posts UI</title>
 
-  <link rel="shortcut icon" href="images/favicon.png" type="image/png" />
+  <link rel="shortcut icon" href="favicon.svg" type="image/png" />
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -76,7 +76,7 @@
         <ul class="nav justify-content-between align-items-center">
           <li class="nav-item">
             <a class="nav__link" href="">
-              <img class="nav__logo" src="images/logo.svg" alt="Logo Nordic Coder" />
+              <img class="nav__logo" src="favicon.svg" alt="Logo Nordic Coder" />
             </a>
           </li>
 
@@ -145,42 +145,17 @@
       <div class="container">
         <h1 class="with-underline text-center">Latest posts</h1>
 
+        <!-- search box -->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="search">Search</span>
+          </div>
+          <input id="searchInput" type="text" class="form-control" placeholder="search by post title"
+            aria-label="search" aria-describedby="search">
+        </div>
+
         <!-- Post list -->
-        <ul id="postList" class="row posts-list justify-content-center">
-          <!-- <li class="col-12 col-md-6 col-lg-4">
-            <div class="post-item mb-4">
-              <div class="card">
-                <img src="images/recipe.jpg" class="card-img-top" alt="recipe"
-                  onerror="this.onerror=null;this.src='https://picsum.photos/1368/400';" />
-
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-
-                  <p class="card-text">
-                    This is a wider card with supporting text below as a
-                    natural lead-in to additional content. This content is a
-                    little bit longer.
-                  </p>
-
-                  <p class="card-text">
-                    <small class="text-muted">by</small>
-                    <small class="text-muted font-weight-bold">Hau Nguyen</small>
-                    <small class="text-muted">- 3 mins ago</small>
-                  </p>
-                </div>
-              </div>
-
-              <div class="post-item-menu">
-                <div class="menu-item rounded-circle">
-                  <i class="fas fa-pen"></i>
-                </div>
-                <div class="menu-item rounded-circle">
-                  <i class="fas fa-trash"></i>
-                </div>
-              </div>
-            </div>
-          </li> -->
-        </ul>
+        <ul id="postList" class="row posts-list justify-content-center ps-0"></ul>
 
         <!-- Posts pagination -->
         <nav class="posts-nav" aria-label="Posts navigation">
@@ -190,9 +165,9 @@
                 <span aria-hidden="true">&laquo; Prev</span>
               </a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <!-- <li class="page-item"><a class="page-link" href="#">1</a></li>
             <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li> -->
             <li class="page-item">
               <a class="page-link" href="#" aria-label="Next">
                 <span aria-hidden="true">Next &raquo;</span>
