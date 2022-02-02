@@ -83,7 +83,6 @@ export function renderPostDetail(post) {
 
   // background hero Image
   const heroImage = document.getElementById('postHeroImage')
-  console.log(heroImage)
   if (heroImage) {
     heroImage.style.backgroundImage = `url("${post.imageUrl}")`
 
