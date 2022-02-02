@@ -84,3 +84,10 @@ ul {
 .card-body .card-text {
   word-break: break-all;
 }
+
+.post-detail .post-image:hover {
+  cursor: pointer;
+}
+.post-detail .post-image {
+  object-fit: cover;
+}
