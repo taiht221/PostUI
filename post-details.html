@@ -5,13 +5,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Add edit post</title>
+    <title>Post detail page</title>
 
     <link rel="shortcut icon" href="images/favicon.png" type="image/png" />
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
 
     <!-- Font awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
@@ -21,8 +21,8 @@
     <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet" />
 
     <!-- Internal CSS -->
-    <link rel="stylesheet" href="/styles/main.css" />
-    <link rel="stylesheet" href="/styles/post-detail.css" />
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/post-detail.css" />
 </head>
 
 <body>
@@ -35,13 +35,13 @@
             <div class="container">
                 <ul class="nav justify-content-between align-items-center">
                     <li class="nav-item">
-                        <a class="nav__link" href=".">
+                        <a class="nav_link" href=".">
                             <img class="nav__logo" src="images/logo.svg" alt="Logo Nordic Coder" />
                         </a>
                     </li>
-
                     <li class="nav-item">
-                        <a id="goToDetailPageLink" class="nav__link" href="#"></a>
+                        <a id="goToEditPageLink" class="nav_link" href="#"><i class="fas fa-edit mr-1"></i> Edit
+                            Post</a>
                     </li>
                 </ul>
             </div>
@@ -55,63 +55,77 @@
             <div class="container">
                 <div class="post-detail-main shadow-sm">
                     <div class="post-title-wrapper">
-                        <h1 id="postDetailTitle">Add edit a post</h1>
+                        <h1 id="postDetailTitle">&nbsp;</h1>
 
                         <p>
-                            <small class="text-muted">Please enter the following information and submit
-                                then.</small>
+                            <small class="text-muted">by</small>
+                            <small id="postDetailAuthor" class="text-muted font-weight-bold">
+                                &nbsp;
+                            </small>
+                            <small id="postDetailTimeSpan" class="text-muted">&nbsp;</small>
                         </p>
                     </div>
 
-                    <form id="postForm" class="post-form">
-                        <div class="form-group">
-                            <label for="postTitle">Title</label>
-                            <input type="text" class="form-control" name="title" placeholder="Eg: Learning JS is fun" />
-                            <div class="invalid-feedback">
-                                Ooops! Please write a nice title for your post &gt;.&lt;
-                            </div>
-                        </div>
+                    <div class="post-content-wrapper">
+                        <p id="postDetailDescription"></p>
 
-                        <div class="form-group">
-                            <label for="postAuthor">Author</label>
-                            <input type="text" class="form-control" name="author" placeholder="Eg: Paul Nguyen" />
-                            <div class="invalid-feedback">
-                                Please enter author of this post!
-                            </div>
-                        </div>
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Non
+                            totam pariatur quibusdam tenetur nemo tempora incidunt ex
+                            doloremque exercitationem dicta. Corporis fuga totam nulla
+                            voluptatibus possimus similique aliquid nobis illo.
+                        </p>
 
-                        <div class="form-group">
-                            <label for="postDescription">Description</label>
-                            <textarea class="form-control" name="description" rows="3"></textarea>
-                        </div>
+                        <p>
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                            Adipisci suscipit inventore hic tenetur, dolor iusto dolorum
+                            rem, non error, saepe quia dignissimos quas ducimus aliquid.
+                            Praesentium ea aspernatur vero deserunt.
+                        </p>
 
-                        <div class="form-group">
-                            <label for="postChangeImage">Image</label>
-                            <small id="passwordHelpBlock" class="form-text text-muted">
-                                We&apos;re using
-                                <a href="https://picsum.photos">Picsum service</a> to get a
-                                random image.
-                            </small>
-                            <button type="button" id="postChangeImage" class="btn btn-dark">
-                                Change post image
-                            </button>
-                        </div>
+                        <img class="post-image" src="https://picsum.photos/1368/800" alt="Picsum photos" />
 
-                        <div class="text-center">
-                            <button class="btn btn-primary">
-                                <i class="fas fa-save mr-1"></i> Save
-                            </button>
-                        </div>
-                    </form>
+                        <p>
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                            Adipisci suscipit inventore hic tenetur, dolor iusto dolorum
+                            rem, non error, saepe quia dignissimos quas ducimus aliquid.
+                            Praesentium ea aspernatur vero deserunt.
+                        </p>
+
+                        <p>
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                            Adipisci suscipit inventore hic tenetur, dolor iusto dolorum
+                            rem, non error, saepe quia dignissimos quas ducimus aliquid.
+                            Praesentium ea aspernatur vero deserunt.
+                        </p>
+
+                        <p>
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                            Adipisci suscipit inventore hic tenetur, dolor iusto dolorum
+                            rem, non error, saepe quia dignissimos quas ducimus aliquid.
+                            Praesentium ea aspernatur vero deserunt.
+                        </p>
+
+                        <img class="post-image" src="https://picsum.photos/1368/1000" alt="Picsum photos" />
+
+                        <p>
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                            Adipisci suscipit inventore hic tenetur, dolor iusto dolorum
+                            rem, non error, saepe quia dignissimos quas ducimus aliquid.
+                            Praesentium ea aspernatur vero deserunt.
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
     <footer class="text-center text-muted py-3">
-        <small>Created by Po with <i class="fas fa-heart"></i></small>
+        <small>Created by TH with <i class="fas fa-heart"></i></small>
     </footer>
 
+    <!-- Scripts should be placed here to prevent blocking render UI -->
+    <script type="module" src="/js/post-details.js"></script>
 </body>
 
 </html>

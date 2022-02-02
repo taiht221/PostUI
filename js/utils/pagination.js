@@ -1,6 +1,5 @@
 export function renderPagination(elementId, pagination) {
   const ulPagination = document.getElementById(elementId)
-  console.log(ulPagination)
   if (!pagination || !ulPagination) return
 
   // calc totalPages
@@ -20,7 +19,6 @@ export function renderPagination(elementId, pagination) {
 }
 
 export function initPagination({ elementId, defaultParams, onChange }) {
-  console.log(onChange)
   //bind click event for pre next button
   const ulPagination = document.getElementById(elementId)
   if (!ulPagination) return
