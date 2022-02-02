@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import postApi from '../api/postApi'
 import { setTextContent, truncateText } from './common'
 
 dayjs.extend(relativeTime)
@@ -35,6 +36,14 @@ export function createPostElement(post) {
     thumbnailElemnt.alt = post.title
   }
 
+  //  post detail  when click
+  const postElement = liElement.firstElementChild
+  if (postElement) {
+    postElement.addEventListener('click', (e) => {
+      window.location.assign(`/post-details.html?id=${post.id}`)
+    })
+  }
+
   return liElement
 }
 
@@ -51,4 +60,41 @@ export function renderPostList(elementId, postList) {
     const liElement = createPostElement(post)
     ulElement.appendChild(liElement)
   })
+}
+
+export function renderPostDetail(post) {
+  //     id="postDetailTitle">&nbsp
+  // id="postDetailAuthor" clas
+  // id="postDetailTimeSpan" cl
+  // id="postDetailDescription"
+  if (!post) return
+
+  setTextContent(document, `#postDetailTitle`, post.title)
+
+  setTextContent(document, `#postDetailDescription`, post.description)
+
+  setTextContent(document, `#postDetailAuthor`, post.author)
+
+  setTextContent(
+    document,
+    `#postDetailTimeSpan`,
+    `${dayjs(post.updatedAt).format(' - DD/MM/YYYY HH:mm')}`
+  )
+
+  // background hero Image
+  const heroImage = document.getElementById('postHeroImage')
+  console.log(heroImage)
+  if (heroImage) {
+    heroImage.style.backgroundImage = `url("${post.imageUrl}")`
+
+    heroImage.addEventListener('error', () => {
+      heroImage.src = 'https://via.placeholder.com/1368x400?text=Image'
+    })
+  }
+
+  // RENDER EDIT PAGE LINK
+  const editPageLink = document.getElementById('goToEditPageLink')
+  if (editPageLink) {
+    editPageLink.href = `add-edit-post.html?id=${post.id}`
+  }
 }
