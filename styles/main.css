@@ -36,7 +36,7 @@ a > i {
 }
 
 a:hover > i {
-  transform: scale(1.2);
+  transform: translateY(-1px);
 }
 
 /* Add underline for all h1 */
@@ -90,4 +90,17 @@ ul {
 }
 .post-detail .post-image {
   object-fit: cover;
+}
+.post-detail .post-detail-main {
+  margin-top: -4rem;
+  padding: 2rem;
+  border-radius: 0.25rem;
+  background-color: white;
+}
+section.hero {
+  height: 300px;
+  background: #eee;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }

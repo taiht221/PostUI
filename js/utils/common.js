@@ -11,3 +11,23 @@ export function truncateText(text, maxLength) {
 
   return `${text.slice(0, maxLength - 1)}…`
 }
+
+export function setFieldValues(form, selector, value) {
+  if (!form) return
+
+  const field = form.querySelector(selector)
+
+  if (field) field.value = value
+}
+
+export function setBackgroundImg(parent, selector, imgUrl) {
+  if (!parent) return
+  const heroImage = parent.querySelector(selector)
+  if (heroImage) {
+    heroImage.style.backgroundImage = `url("${imgUrl}")`
+
+    heroImage.addEventListener('error', () => {
+      heroImage.src = 'https://via.placeholder.com/1368x400?text=Image'
+    })
+  }
+}
