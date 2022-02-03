@@ -40,7 +40,19 @@ export function createPostElement(post) {
   const postElement = liElement.firstElementChild
   if (postElement) {
     postElement.addEventListener('click', (e) => {
+      const menu = liElement.querySelector(`[data-id="menu"]`)
+      if (menu && menu.contains(e.target)) return
       window.location.assign(`/post-details.html?id=${post.id}`)
+    })
+  }
+
+  // assign for edit button
+  const editButton = liElement.querySelector(`[data-id="edit"]`)
+  if (editButton) {
+    editButton.addEventListener('click', (e) => {
+      // e.stopPropagation()
+      window.location.assign(`/add-edit-post.html?id=${post.id}`)
+      console.log(e.target)
     })
   }
 
