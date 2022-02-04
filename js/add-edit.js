@@ -1,5 +1,21 @@
 import postApi from './api/postApi'
-import { initPostForm } from './utils'
+import { initPostForm, toast } from './utils'
+
+async function handlePostFormSubmit(formValues) {
+  try {
+    // check  add or edit - call APi - show toast successs -redirect to detail page
+    // if formValues have id key ==> Edit Page
+    const apiValues = formValues.id
+      ? await postApi.update(formValues)
+      : await postApi.add(formValues)
+    toast.success('Your Post Has Been Save !')
+
+    setTimeout(() => window.location.assign(`/post-details.html?id=${apiValues.id}`), 3000)
+  } catch (error) {
+    toast.error(`Error: ${error.message}`)
+  }
+}
+
 ;(async () => {
   try {
     const searchParams = new URLSearchParams(window.location.search)
@@ -22,7 +38,7 @@ import { initPostForm } from './utils'
     initPostForm({
       formId: 'postForm',
       defaultValues,
-      onSubmit: (formValues) => console.log(formValues),
+      onSubmit: (formValues) => handlePostFormSubmit(formValues),
     })
   } catch (error) {
     console.log('get post detail fail', error)

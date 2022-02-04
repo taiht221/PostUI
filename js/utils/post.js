@@ -75,10 +75,6 @@ export function renderPostList(elementId, postList) {
 }
 
 export function renderPostDetail(post) {
-  //     id="postDetailTitle">&nbsp
-  // id="postDetailAuthor" clas
-  // id="postDetailTimeSpan" cl
-  // id="postDetailDescription"
   if (!post) return
 
   setTextContent(document, `#postDetailTitle`, post.title)

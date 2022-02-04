@@ -50,20 +50,6 @@ function setFieldError(form, name, error) {
 
 async function validateForm(form, formValues) {
   // get errors --- set errors --- add was-validated class bs
-  const errors = {
-    title: createYupSchema,
-  }
-
-  //set errors
-
-  for (const key in errors) {
-    const element = form.querySelector(`[name="${key}"]`)
-    if (element) {
-      element.setCustomValidity(errors[key])
-      setTextContent(element.parentElement, '.invalid-feedback', errors[key])
-    }
-  }
-
   try {
     // reset previous errors
     ;['title', 'author'].forEach((name) => setFieldError(form, name, ''))
@@ -91,17 +77,50 @@ async function validateForm(form, formValues) {
   return isValid
 }
 
+function showLoading(form) {
+  const button = form.querySelector(`[name="submit"]`)
+  if (button) {
+    button.disabled = true
+    button.innerHTML = '<i class="fas fa-save mr-1"></i>  Saving ...'
+  }
+}
+
+function hideLoading(form) {
+  const button = form.querySelector(`[name="submit"]`)
+  if (button) {
+    button.disabled = false
+    button.innerHTML = '<i class="fas fa-save mr-1"></i>  Save'
+  }
+}
+
 export function initPostForm({ formId, defaultValues, onSubmit }) {
   const form = document.getElementById(formId)
   if (!form) return
 
+  let submitting = false
+
   setFormValues(form, defaultValues)
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault()
 
-    const formValues = getFormValues(form)
+    if (submitting) return
 
-    if (!validateForm(form, formValues)) return
+    showLoading(form)
+    submitting = true
+
+    const formValues = getFormValues(form)
+    // ADD id for Edit page
+    formValues.id = defaultValues.id
+
+    const isValid = await validateForm(form, formValues)
+
+    // Promise is truthy !Promise alway false --> so alway pass return
+    if (!isValid) return
+
+    await onSubmit?.(formValues)
+
+    hideLoading(form)
+    submitting = false
   })
 }
