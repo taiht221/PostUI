@@ -1,4 +1,4 @@
-import { setBackgroundImg, setTextContent } from '.'
+import { randomNumber, setBackgroundImg, setTextContent } from '.'
 import { setFieldValues } from './common'
 import * as yup from 'yup'
 
@@ -37,6 +37,10 @@ function createYupSchema() {
         (value) => value.split(' ').filter((x) => !!x && x.length >= 3).length >= 2
       ),
     description: yup.string(),
+    imageUrl: yup
+      .string()
+      .required('Please click to random a background image')
+      .url('Please enter a valid URL'),
   })
 }
 
@@ -52,14 +56,14 @@ async function validateForm(form, formValues) {
   // get errors --- set errors --- add was-validated class bs
   try {
     // reset previous errors
-    ;['title', 'author'].forEach((name) => setFieldError(form, name, ''))
+    ;['title', 'author', 'imageUrl'].forEach((name) => setFieldError(form, name, ''))
 
     const schema = createYupSchema()
     await schema.validate(formValues, { abortEarly: false })
   } catch (error) {
     const errorLog = {}
 
-    if (error.name === 'ValidationError') {
+    if (error.name === 'ValidationError' && Array.isArray(error.inner)) {
       for (const validationError of error.inner) {
         const name = validationError.path
 
@@ -93,6 +97,19 @@ function hideLoading(form) {
   }
 }
 
+function initRandomImage(form) {
+  const randomButton = document.getElementById('postChangeImage')
+  if (!randomButton) return
+
+  randomButton.addEventListener('click', () => {
+    //random Id for picsum URL
+    const imageUrl = `https://picsum.photos/id/${randomNumber(1000)}/1378/400`
+
+    setFieldValues(form, "[name='imageUrl']", imageUrl)
+    setBackgroundImg(document, '#postHeroImage', imageUrl)
+  })
+}
+
 export function initPostForm({ formId, defaultValues, onSubmit }) {
   const form = document.getElementById(formId)
   if (!form) return
@@ -100,6 +117,8 @@ export function initPostForm({ formId, defaultValues, onSubmit }) {
   let submitting = false
 
   setFormValues(form, defaultValues)
+
+  initRandomImage(form)
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault()
@@ -116,9 +135,7 @@ export function initPostForm({ formId, defaultValues, onSubmit }) {
     const isValid = await validateForm(form, formValues)
 
     // Promise is truthy !Promise alway false --> so alway pass return
-    if (!isValid) return
-
-    await onSubmit?.(formValues)
+    if (isValid) await onSubmit?.(formValues)
 
     hideLoading(form)
     submitting = false
