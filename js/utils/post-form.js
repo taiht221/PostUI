@@ -2,6 +2,11 @@ import { randomNumber, setBackgroundImg, setTextContent } from '.'
 import { setFieldValues } from './common'
 import * as yup from 'yup'
 
+const ImageSource = {
+  PICSUM: 'picsum',
+  UPLOAD: 'upload',
+}
+
 function setFormValues(form, formValues) {
   setFieldValues(form, "[name='title']", formValues?.title)
   setFieldValues(form, "[name='author']", formValues?.author)
@@ -37,10 +42,31 @@ function createYupSchema() {
         (value) => value.split(' ').filter((x) => !!x && x.length >= 3).length >= 2
       ),
     description: yup.string(),
-    imageUrl: yup
+    imageSource: yup
       .string()
-      .required('Please click to random a background image')
-      .url('Please enter a valid URL'),
+      .required('Please select an image source')
+      .oneOf([ImageSource.PICSUM, ImageSource.UPLOAD], 'Invalid image source'),
+    imageUrl: yup.string().when('imageSource', {
+      is: ImageSource.PICSUM,
+      then: yup
+        .string()
+        .required('Please click to random a background image')
+        .url('Please enter a valid URL'),
+    }),
+    image: yup.mixed().when('imageSource', {
+      is: ImageSource.UPLOAD,
+      then: yup
+        .mixed()
+        .test('require', 'Please select an image to upload', (value) => {
+          return Boolean(value?.name)
+        })
+        .test('max-size', 'The image is too lagre (max 3mb)', (file) => {
+          const fileSize = file?.size || 0
+          // file should lower than 3MB   1mb =1024KB 1KB =1024Byte max size = 3 *1024 *1024
+          const MAX_SIZE = 3 * 1024 * 1024
+          return fileSize <= MAX_SIZE
+        }),
+    }),
   })
 }
 
@@ -56,7 +82,9 @@ async function validateForm(form, formValues) {
   // get errors --- set errors --- add was-validated class bs
   try {
     // reset previous errors
-    ;['title', 'author', 'imageUrl'].forEach((name) => setFieldError(form, name, ''))
+    ;['title', 'author', 'imageUrl', 'imageSource', 'imageUrl', 'image'].forEach((name) =>
+      setFieldError(form, name, '')
+    )
 
     const schema = createYupSchema()
     await schema.validate(formValues, { abortEarly: false })
@@ -103,7 +131,7 @@ function initRandomImage(form) {
 
   randomButton.addEventListener('click', () => {
     //random Id for picsum URL
-    const imageUrl = `https://picsum.photos/id/${randomNumber(1000)}/1378/400`
+    const imageUrl = `https://picsum.photos/id/${randomNumber(300)}/1378/400`
 
     setFieldValues(form, "[name='imageUrl']", imageUrl)
     setBackgroundImg(document, '#postHeroImage', imageUrl)
@@ -121,12 +149,25 @@ function initRadioImageSource(form) {
   const radioList = form.querySelectorAll(`[name="imageSource"]`)
   if (radioList || Array.isArray(radioList)) {
     radioList.forEach((radio) => {
-      console.log(radio)
       radio.addEventListener('change', (event) =>
         renderImageSourceControl(form, event.target.value)
       )
     })
   }
+}
+
+function initUpLoadImage(form) {
+  const uploadImage = form.querySelector("[name='image']")
+  if (!uploadImage) return
+
+  uploadImage.addEventListener('change', (e) => {
+    const file = e.target.files[0]
+
+    if (file) {
+      const imageUrl = URL.createObjectURL(file)
+      setBackgroundImg(document, '#postHeroImage', imageUrl)
+    }
+  })
 }
 
 export function initPostForm({ formId, defaultValues, onSubmit }) {
@@ -139,6 +180,7 @@ export function initPostForm({ formId, defaultValues, onSubmit }) {
 
   initRandomImage(form)
   initRadioImageSource(form)
+  initUpLoadImage(form)
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault()
