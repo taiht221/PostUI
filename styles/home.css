@@ -100,3 +100,10 @@
 .posts-nav .page-item:not(.active) .page-link:hover {
   color: var(--primary-color);
 }
+
+/* .card .spinner-border {
+  position: absolute;
+  top: 50%;
+  bottom: 50%;
+  transform: translate(-50%, -50%);
+} */

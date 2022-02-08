@@ -1,11 +1,11 @@
 import postApi from './api/postApi'
-import { initPagination, initSearch, renderPagination, renderPostList } from './utils'
+import { initPagination, initSearch, renderPagination, renderPostList, toast } from './utils'
 
 async function handleFilterChange(filterName, filterValue) {
   try {
     //update query params
     const url = new URL(window.location)
-    url.searchParams.set(filterName, filterValue)
+    if (filterName) url.searchParams.set(filterName, filterValue)
 
     // reset page if page = 3 and item in page 1
     if (filterName === 'title_like') url.searchParams.set('_page', 1)
@@ -23,6 +23,52 @@ async function handleFilterChange(filterName, filterValue) {
   }
 }
 
+function registerPostDeleteEvent() {
+  document.addEventListener('post-delete', async (e) => {
+    //get post-id form custom event ->getID-> delete by ID
+    try {
+      const modal = document.getElementById('Modal')
+      const closeButton = modal.querySelector(`button[data-button="no"]`)
+      const yesButton = modal.querySelector(`button[data-button="yes"]`)
+
+      if (modal) {
+        modal
+          .querySelector('modal-body')
+          .textContent()=`Do you really want to delete post ${e.detail.title}?`
+        modal.classList.add('show')
+        modal.style.display = 'block'
+        document.body.classList.add('modal-open')
+        document.querySelector('.modal-backdrop').classList.remove('d-none')
+        e.target.parentNode.parentNode.querySelector('.spinner-border').classList.remove('d-none')
+        closeButton.addEventListener('click', () => {
+          modal.classList.remove('show')
+          modal.style.display = 'none'
+          document.body.classList.remove('modal-open')
+          document.querySelector('.modal-backdrop').classList.add('d-none')
+          e.target.parentNode.parentNode.querySelector('.spinner-border').classList.add('d-none')
+        })
+        yesButton.addEventListener('click', () => {
+          modal.classList.remove('show')
+          modal.style.display = 'none'
+          document.body.classList.remove('modal-open')
+          document.querySelector('.modal-backdrop').classList.add('d-none')
+          e.target.parentNode.parentNode.querySelector('.spinner-border').classList.add('d-none')
+        })
+      }
+      // if (window.confirm(`Do you really want to delete post ${e.detail.title}?`)) {
+      //
+      //   const post = e.detail
+
+      //   // await postApi.delete(post.id)
+      //   await handleFilterChange()
+      //   toast.success('Your post is delete')
+      // }
+    } catch (error) {
+      toast.error(error.message)
+    }
+  })
+}
+
 ;(async () => {
   try {
     const url = new URL(window.location)
@@ -33,6 +79,8 @@ async function handleFilterChange(filterName, filterValue) {
 
     history.pushState({}, '', url)
     const params = url.searchParams
+
+    registerPostDeleteEvent()
 
     initPagination({
       elementId: 'Pagination',

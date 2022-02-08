@@ -23,6 +23,7 @@
   <!-- Internal CSS -->
   <link rel="stylesheet" href="/styles/main.css" />
   <link rel="stylesheet" href="/styles/home.css" />
+
 </head>
 
 <body>
@@ -31,15 +32,14 @@
     <li class="col-12 col-md-6 col-lg-4">
       <div class="post-item mb-4">
         <div class="card">
+
           <img data-id="thumbnail" src="images/recipe.jpg" class="card-img-top" alt="recipe" />
 
           <div class="card-body">
             <h5 data-id="title" class="card-title">Card title</h5>
 
             <p data-id="description" class="card-text">
-              This is a wider card with supporting text below as a natural
-              lead-in to additional content. This content is a little bit
-              longer.
+
             </p>
 
             <p class="card-text">
@@ -52,13 +52,20 @@
               </small>
             </p>
           </div>
+
+          <div class="d-flex justify-content-center ">
+            <div class="spinner-border d-none" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
         </div>
 
         <div class="post-item-menu" data-id="menu">
           <div data-id="edit" class="menu-item rounded-circle" role="button">
             <i class="fas fa-pen"></i>
           </div>
-          <div data-id="remove" class="remove-button menu-item rounded-circle" role="button">
+          <div data-id="remove" class="remove-button menu-item rounded-circle" role="button" data-toggle="modal"
+            data-target="#exampleModal">
             <i class="fas fa-trash"></i>
           </div>
         </div>
@@ -180,6 +187,28 @@
     <small>Created by TH with <i class="fas fa-heart"></i></small>
   </footer>
 
+  <!-- Modal -->
+  <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Delete this post?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" data-button="no">Close</button>
+          <button type="button" class="btn btn-primary" data-button="yes">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop d-none fade show"></div>
   <!-- Bootstrap -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"

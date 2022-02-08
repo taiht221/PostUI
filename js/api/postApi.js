@@ -23,7 +23,7 @@ const postApi = {
 
   delete(id) {
     const url = `/posts/${id}`
-    return axiosClient.patch(url)
+    return axiosClient.delete(url)
   },
 
   addFormData(data) {
