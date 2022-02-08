@@ -1,16 +1,44 @@
 import postApi from './api/postApi'
 import { initPostForm, toast } from './utils'
 
+function removeUnuseFields(formValues) {
+  const payload = { ...formValues }
+  //imageSource =  "picsum" -> remove image
+  //imageSource = "upload"  -> remove imageUrl
+  //finnally remove ImageSource
+  payload.imageSource === 'upload' ? delete payload.imageUrl : delete payload.image
+
+  delete payload.imageSource
+
+  if (!payload.id) delete payload.id
+
+  return payload
+}
+
+function jsonFormData(jsonObject) {
+  const formData = new FormData()
+
+  for (const key in jsonObject) {
+    formData.set(key, jsonObject[key])
+  }
+
+  return formData
+}
+
 async function handlePostFormSubmit(formValues) {
+  const payload = removeUnuseFields(formValues)
+  const formData = jsonFormData(payload)
+
   try {
     // check  add or edit - call APi - show toast successs -redirect to detail page
     // if formValues have id key ==> Edit Page
     const apiValues = formValues.id
-      ? await postApi.update(formValues)
-      : await postApi.add(formValues)
+      ? await postApi.updateFormData(formData)
+      : await postApi.addFormData(formData)
+
     toast.success('Your Post Has Been Save !')
 
-    setTimeout(() => window.location.assign(`/post-details.html?id=${apiValues.id}`), 3000)
+    setTimeout(() => window.location.assign(`/post-details.html?id=${apiValues.id}`), 2000)
   } catch (error) {
     toast.error(`Error: ${error.message}`)
   }
