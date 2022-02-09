@@ -1,5 +1,12 @@
 import postApi from './api/postApi'
-import { initPagination, initSearch, renderPagination, renderPostList, toast } from './utils'
+import {
+  initModal,
+  initPagination,
+  initSearch,
+  renderPagination,
+  renderPostList,
+  toast,
+} from './utils'
 
 async function handleFilterChange(filterName, filterValue) {
   try {
@@ -27,42 +34,17 @@ function registerPostDeleteEvent() {
   document.addEventListener('post-delete', async (e) => {
     //get post-id form custom event ->getID-> delete by ID
     try {
-      const modal = document.getElementById('Modal')
-      const closeButton = modal.querySelector(`button[data-button="no"]`)
-      const yesButton = modal.querySelector(`button[data-button="yes"]`)
+      initModal({
+        modalId: 'Modal',
+        postElement: e,
+        onChange: async () => {
+          const post = e.detail
 
-      if (modal) {
-        modal
-          .querySelector('modal-body')
-          .textContent()=`Do you really want to delete post ${e.detail.title}?`
-        modal.classList.add('show')
-        modal.style.display = 'block'
-        document.body.classList.add('modal-open')
-        document.querySelector('.modal-backdrop').classList.remove('d-none')
-        e.target.parentNode.parentNode.querySelector('.spinner-border').classList.remove('d-none')
-        closeButton.addEventListener('click', () => {
-          modal.classList.remove('show')
-          modal.style.display = 'none'
-          document.body.classList.remove('modal-open')
-          document.querySelector('.modal-backdrop').classList.add('d-none')
-          e.target.parentNode.parentNode.querySelector('.spinner-border').classList.add('d-none')
-        })
-        yesButton.addEventListener('click', () => {
-          modal.classList.remove('show')
-          modal.style.display = 'none'
-          document.body.classList.remove('modal-open')
-          document.querySelector('.modal-backdrop').classList.add('d-none')
-          e.target.parentNode.parentNode.querySelector('.spinner-border').classList.add('d-none')
-        })
-      }
-      // if (window.confirm(`Do you really want to delete post ${e.detail.title}?`)) {
-      //
-      //   const post = e.detail
-
-      //   // await postApi.delete(post.id)
-      //   await handleFilterChange()
-      //   toast.success('Your post is delete')
-      // }
+          await postApi.delete(post.id)
+          await handleFilterChange()
+          toast.success('Your post is delete')
+        },
+      })
     } catch (error) {
       toast.error(error.message)
     }
