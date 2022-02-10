@@ -7,6 +7,7 @@ import {
   renderPostList,
   toast,
 } from './utils'
+import { initLoader } from './utils/load'
 
 async function handleFilterChange(filterName, filterValue) {
   try {
@@ -53,6 +54,8 @@ function registerPostDeleteEvent() {
 
 ;(async () => {
   try {
+    initLoader()
+
     const url = new URL(window.location)
 
     // set default params for url
