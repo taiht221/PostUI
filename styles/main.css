@@ -104,3 +104,10 @@ section.hero {
   background-position: center;
   background-repeat: no-repeat;
 }
+
+header {
+  background-image: url('/images/valentines.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
